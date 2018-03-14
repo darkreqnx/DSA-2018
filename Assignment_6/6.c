@@ -1,66 +1,66 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include<string.h>
 
-struct doublyLinkedList{
-    struct doublyLinkedList * left;
+struct Node{
+    struct Node * prev;
     int data;
-    struct doublyLinkedList * right;
+    struct Node * next;
 };
 
-struct doublyLinkedList * head = 0;
-struct doublyLinkedList * tail = 0;
+struct Node * head = 0;
+struct Node * tail = 0;
 
-void insert(int data, int location){
-    struct doublyLinkedList myStruct;
-    myStruct.data = data;
-    myStruct.left = 0;
-    myStruct.right = 0;
+void insert(int data,int location){
+    struct Node * ptr = (struct Node*)malloc(sizeof(struct Node));
+    ptr->data = data;
     if(location==0){
-        myStruct.right = head;
-        (*head).left = &myStruct;
-        head = &myStruct;
+        ptr->next = head;
+        if(head!=0) head->prev = ptr;
+        else tail = ptr;
+        ptr->prev = 0;
+        head = ptr;
     }
     if(location==1){
-        myStruct.left = tail;
-        (*tail).right = &myStruct;
-        tail = &myStruct;
+        ptr->prev = tail;
+        if(tail!=0) tail->next = ptr;
+        else head = ptr;
+        ptr->next = 0;
+        tail = ptr;
     }
-
+    printf("\nInsertion Done!\n");
 }
 
 int del(int location){
-    int i;
-    if(location!=-1){
-        struct doublyLinkedList * pointer = head;
-        for(i=1;i<location;i++){
-            pointer = (*head).right;
+    if(head!=0){
+        struct Node * a = head;
+        int i;
+        for(i=0;i<location;i++){
+            a = a->next;
         }
-        i = (*pointer).data;
-        (*(*pointer).left).right = (*pointer).right;
-        (*(*pointer).right).left = (*pointer).left;
+        int data = a->data;
+        if(a->prev != 0) a->prev->next = a->next;
+        if(a->next != 0) a->next->prev = a->prev;
+        if(head==tail){
+            head = 0;
+            tail = 0;
+        }
+        return data;
     }
-    else{
-        i = (*tail).data;
-        tail = (*tail).left;
-        (*tail).right = 0;
-
-    }
-    return i;
-
+    else return -1;
 }
 
 void printList(){
-    struct doublyLinkedList a = *(head);
-    while(a.right!=0){
-        printf("%d ",a.data);
-        a = *(a.right);
+    struct Node * a = head;
+    while(a->next!=0){
+        printf("%d ",a->data);
+        a = a->next;
     }
-    printf("%d ",a.data);
+    printf("%d ",a->data);
+
 }
 
-int main()
-{
+
+int six(){
+
     while(1==1){
         int choice;
         printf("\n1. Insert Element at beginning\n2. Insert element at end\n3. Remove element at location i\n4. Remove first element\n5. Remove Last element\n6. Print List\n7. Exit\nEnter your choice: ");
@@ -101,6 +101,3 @@ int main()
     }
 EXIT:    return 0;
 }
-
-
-
