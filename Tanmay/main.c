@@ -10,12 +10,15 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <string.h>
 #define SIZE 100
 
 
 void upperLower() {
 
-    char s[SIZE] = "how do you think I am doing in this class?";
+    printf("Enter string: ");
+    char s[SIZE];
+    scanf("%s",s);
     int i;
     for (i = 0; i <SIZE ; i++) {
         s[i] = toupper(s[i]);
@@ -32,34 +35,34 @@ void upperLower() {
 
 void convertStrtoInt() {
 
-    char a[SIZE] = "8";
-    char b[SIZE] = "4";
-    char c[SIZE] = "87";
-    char d[SIZE] = "102";
-
-    int aa = atoi(a);
-    int bb = atoi(b);
-    int cc = atoi(c);
-    int dd = atoi(d);
-
-    int total = aa+bb+cc+dd;
+    printf("Enter the total number of numbers: ");
+    int n;
+    scanf("%d", &n);
+    int i;
+    int total = 0;
+    for(i=0;i<n;i++){
+        printf("Enter number %d: ",i+1);
+        char a[SIZE];
+        scanf("%s",a);
+        total+=atoi(a);
+    }
 
     printf("The total is: %d", total);
 }
 
 void convertStrtoFloat() {
 
-    char a[SIZE] = "24.4";
-    char b[SIZE] = "51.9";
-    char c[SIZE] = "46.6";
-    char d[SIZE] = "210.8";
-
-    float aa = atof(a);
-    float bb = atof(b);
-    float cc = atof(c);
-    float dd = atof(d);
-
-    float total = aa+bb+cc+dd;
+    printf("Enter the total number of numbers: ");
+    int n;
+    scanf("%d", &n);
+    int i;
+    float total = 0;
+    for(i=0;i<n;i++){
+        printf("Enter number %d: ",i+1);
+        char a[SIZE];
+        scanf("%s",a);
+        total+=atof(a);
+    }
 
     printf("The total is: %.2f", total);
 }
@@ -69,29 +72,26 @@ void compareStr() {
     char s1[SIZE];
     char s2[SIZE];
 
-    printf("String 1 \n");
+    printf("String 1: ");
     scanf("%s", s1);
 
-    printf("String 2 \n");
+    printf("String 2: ");
     scanf("%s", s2);
 
-    int s1Size = strlen(s1);
-    int s2Size = strlen(s2);
-
     result = strcmp(s1, s2);
-    puts(" \n");
+    printf(" \n");
 
-    if (s1Size < s2Size)
+    if (result > 0)
     {
-      printf("String 1 is shorter\n");
+      printf("String 1 is greater\n");
     }
-    else if(s1Size > s2Size)
+    else if(result < 0)
     {
-      printf("String 2 is shorter\n");
+      printf("String 2 is greater\n");
     }
     else
     {
-      printf("Both are equal");
+        printf("Both are equal");
     }
 
 }
@@ -99,35 +99,25 @@ void compareStr() {
 void  comparePartialStr() {
 
     int n;
-    int result;
     char s1[SIZE];
     char s2[SIZE];
-    char modifiedString[SIZE];
 
-
-    printf(" Enter the number of characters you would like to compare\n");
+    printf(" Enter the number of characters you would like to compare: ");
     scanf("%d", &n);
 
-    printf("Please enter the first word \n");
+    printf("Please enter the first sentence: ");
     scanf("%s", s1);
 
-    printf("Please enter the second word \n");
+    printf("Please enter the second sentence: ");
     scanf("%s", s2);
 
-    int i;
-    for (i = 0; i < n; ++i) {
-        modifiedString[i] = s1[i];
-    }
+    int result = strncmp(s1,s2,n);
 
-    result = strcmp(modifiedString,s2);
-    int modSize = strlen(modifiedString);
-    int s2Size = strlen(s2);
-
-    if (modSize < s2Size)
+    if (result < 0)
     {
       printf("String 1 is shorter\n");
     }
-    else if(modSize > s2Size)
+    else if(result > 0)
     {
       printf("String 2 is shorter\n");
     }
@@ -156,26 +146,35 @@ void tokenizeTelNum() {
 }
 
 void reverse() {
-    char s[] = "Yeay I scored an A";
+    printf("Enter string: ");
+    char s[SIZE];
+    scanf("%s",s);
     int length = strlen(s);
 
     int i;
     printf("The reversed String is: ");
 
-    for (i = length - 1; i >= 0; i--) {
-        if (s[i] == ' ') {
-            s[i] = '\0';
-            printf("%s ", &(s[i]) + 1);
-        }
+    for(i=0;i<length/2;i++){
+        char temp = s[i];
+        s[i] = s[length-i-1];
+        s[length-i-1] = temp;
     }
-    printf("%s\n", s);
+
+    printf("%s",s);
 }
 
 void countSubstr() {
 
-    char *i="I was up till six am to do this lab";
+    char string[SIZE], substr[15];
+    printf("Enter string: ");
+    scanf("%s",string);
+    printf("Enter substr: ");
+    scanf("%s",substr);
+
+    char * i = &string[0];
+
     int total=0;
-    while ( (i=strstr(i,"a")) != NULL )
+    while ( (i=strstr(i,substr)) != NULL )
     {
         total++;
         i++;
@@ -186,9 +185,18 @@ void countSubstr() {
 
 void countChar() {
 
-    char *i="We say many different things to do mosaics";
+    char string[SIZE], c;
+    printf("Enter string: ");
+    scanf("%s",string);
+    char blank;
+    scanf("%c",&blank);
+    printf("Enter character: ");
+    scanf("%c",&c);
+
+    char * i = &string[0];
+
     int total=0;
-    while ( (i=strchr(i,'H')) != NULL )
+    while ( (i=strchr(i,c)) != NULL )
     {
         total++;
         i++;
@@ -198,7 +206,10 @@ void countChar() {
 }
 
 void countAlpha() {
-    char string[100] = "hey handsome, how you doing?";
+    printf("Enter string: ");
+    char string[SIZE];
+    scanf("%s",string);
+
     int c = 0, count[26] = {0}, x;
 
     printf("Counting the amount of times letters in the alphabet occur");
@@ -209,60 +220,76 @@ void countAlpha() {
             x = string[c] - 'a';
             count[x]++;
         }
+        else if (string[c] >= 'A' && string[c] <= 'Z') {
+            x = string[c] - 'A';
+            count[x]++;
+        }
         c++;
     }
     for (c = 0; c < 26; c++)
-        printf("%c occurs %d times in the string.\n", c + 'a', count[c]);
-
-
+        printf("%c occurs %d times in the string.\n", c>'a'?c+'a':c+'A', count[c]);
 }
 
-void countWords(char * p){
-  printf("String: %s\n", p);
+void countWords(){
+  printf("Enter String: ");
+  char p[SIZE];
+  char blank;
+  scanf("%c",&blank);
+  scanf("%[^\n]s",p);
+
   char words[100];
   int count = 0;
   char *tokens = strtok(p, " ");
   strcpy(words, tokens);
 
+  printf("The following words are present:\n");
   while(tokens !=NULL){
     count++;
     strcpy(words, tokens);
-    printf("words is: %s\n", words);
+    printf("%s\n", words);
     tokens = strtok(NULL, " ");
   }
 
   printf("The number of words is: %d\n", count);
 }
 
+
 void startsWithB() {
-    char s[3][100] = {"babulo", "banana", "frat"};
-    int loop = strlen(s);
-    char z[] = "b";
-    char *ret;
+    printf("Enter number of words: ");
+    int n;
+    scanf("%d",&n);
     int i;
+    char s[n][100];
+    for(i=0;i<n;i++){
+        printf("Enter word %d: ",i+1);
+        scanf("%s",s[i]);
+    }
 
-    printf("Strings that started with B were: ");
+    printf("Strings that started with B were: \n");
 
-    for (i = 0; i <loop; ++i) {
-        ret= strstr(s[i], z);
-        if (ret != NULL) {
+    for (i = 0; i <n; i++) {
+        if(s[i][0]=='b'){
             printf("%s\n", s[i]);
         }
     }
 }
 
 void endsWithed() {
-    char s[5][100]= {"hurried", "likhin", "modicare", "flipped", "Hurrcane"};
-    int length = strlen(s);
-    char z[] = "ed";
-    char *ret;
+    printf("Enter number of words: ");
+    int n;
+    scanf("%d",&n);
     int i;
+    char s[n][100];
+    for(i=0;i<n;i++){
+        printf("Enter word %d: ",i+1);
+        scanf("%s",s[i]);
+    }
 
     printf("Strings that ended in -ed were: ");
 
-    for (i = 0; i <length; i++) {
-        ret= strstr(s[i],z);
-        if(ret != NULL) {
+    for (i = 0; i <n; i++) {
+        int l = strlen(s[i]);
+        if(s[i][l-1] == 'd' && s[i][l-2] == 'e') {
             printf("%s\n", s[i]);
         }
     }
@@ -270,52 +297,56 @@ void endsWithed() {
 int main() {
 
 
-    puts("\t\tUpperLower");
+    printf("\n\t\tUpperLower\n");
     upperLower();
-    puts("");
+    printf("\n");
 
-    puts("\t\tConvertStrtoInt");
+    printf("\n\t\tConvertStrtoInt\n");
     convertStrtoInt();
-    puts("\n");
+    printf("\n");
 
-    puts("\t\tConvertStrtoFloat");
+    printf("\n\t\tConvertStrtoFloat\n");
     convertStrtoFloat();
-    puts("\n");
+    printf("\n");
 
-    puts("\t\tString comparision");
+    printf("\n\t\tString comparision\n");
     compareStr();
-    puts("\n");
+    printf("\n");
 
-    puts("\t\tString comparision by number");
+    printf("\n\t\tString comparision by number\n");
     comparePartialStr();
-    puts("");
+    printf("\n");
 
-    puts("\t\tToken telephone number");
+    printf("\n\t\tToken telephone number\n");
     tokenizeTelNum();
-    puts("");
+    printf("\n");
 
-    puts("Reverse Method");
+    printf("\n\t\tReverse Method\n");
     reverse();
-    puts("");
+    printf("\n");
 
-    puts("Count Substring");
+    printf("\n\t\tCount Substring\n");
     countSubstr();
-    puts("\n");
+    printf("\n");
 
-    puts("Counts character");
+    printf("\n\t\tCounts character\n");
     countChar();
-    puts("\n");
+    printf("\n");
 
-    puts("Count Alpha");
+    printf("\n\t\tCount Alpha\n");
     countAlpha();
-    puts("\n");
+    printf("\n");
 
-    /*puts("Count words");
-    countWords("I have a major adharma");
-    puts("");
-*/
+    printf("\n\t\tCount words\n");
+    countWords();
+
+    printf("\n\t\tStarts with 'B' or 'b'\n");
     startsWithB();
-    puts("");
+    printf("\n");
 
+    printf("\n\t\tEnds with 'ed'\n");
     endsWithed();
+    printf("\n");
+
+    return 0;
 }
